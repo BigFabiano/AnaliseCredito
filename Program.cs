@@ -1,40 +1,64 @@
 ﻿using System;
 
-namespace AnaliseCredito
+namespace Financeiro
 {
     class Program
     {
         static void Main(string[] args)
         {
+            /*
+            Um cliente quer solicitar um empréstimo. Receba o valor solicitado, a quantidade de parcelas 
+            desejada e a renda mensal comprovada. Só autorize empréstimos cuja parcela não ultrapasse 30% da renda (desconsidere os juros).*/
+            decimal rendaMensal, valorParcela, valorContratado;
+            int parcela;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("■ ■ ■ ■ ■ ■ ANALISE DE CREDITO ■ ■ ■ ■ ■ ■\n");
+
+            Console.ResetColor();
+
+            Console.Write("Digite o valor a ser contratado: R$ ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            valorContratado = Convert.ToDecimal(Console.ReadLine());
+            Console.ResetColor();
+
+            Console.Write("Qual quantidade de parcelas deseja fazer: ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            parcela = Convert.ToInt32(Console.ReadLine());
+            Console.ResetColor();
             
-            double emprestimo, parcelas, renda, porcentagem,valorParcela;
-            Console.WriteLine("■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-            Console.WriteLine("■      Analise Credito    ■");
-            Console.WriteLine("■■■■■■■■■■■■■■■■■■■■■■■■■■■");   
-
-            Console.Write("Digite o valor do emprestimo...: ");
-            emprestimo = Convert.ToDouble(Console.ReadLine());
-
-            Console.Write("Digite a quantidade de parcelas...: ");
-            parcelas = Convert.ToDouble(Console.ReadLine());
-
-            Console.Write("Digite a sua Renda...: ");
-            renda = Convert.ToDouble(Console.ReadLine());
-
-            porcentagem = renda / 100 * 30;
-
-            valorParcela = (emprestimo / parcelas);
-
-            if(porcentagem > valorParcela)
+            if (parcela <= 0 || parcela > 12)
             {
-                Console.WriteLine("\nEmprestimo Autorizado");
+                Console.WriteLine($"Não é possivel parcela em {parcela} vez(es), escolha entre 1 a 12");
+                
             }
-            else if(porcentagem < valorParcela)
+            else
             {
-                 Console.WriteLine("\nEmprestimo Não Aurolizado");
-            }
-    
-        } 
+            Console.Write("Informe sua renda mensal: R$ ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            rendaMensal = Convert.ToDecimal(Console.ReadLine());
+            Console.ResetColor();
 
+            valorParcela = rendaMensal / parcela;
+            
+            if (valorParcela > (rendaMensal * 30/100))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"Valor ultrapassou 30% de sua renda, crédito NEGADO\n");
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.Write($"Valor APROVADO em {parcela} parcelas de {valorParcela:C}\n");    
+                Console.ResetColor();            
+            }
+            }
+            Console.WriteLine("Obrigado por usar o programa.");
+            Console.WriteLine("Todos direito reservados Fabiano N Souza®");
+            Console.ReadKey();
+                    
+        }
     }
 }
+
