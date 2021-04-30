@@ -11,6 +11,8 @@ namespace Financeiro
             desejada e a renda mensal comprovada. Só autorize empréstimos cuja parcela não ultrapasse 30% da renda (desconsidere os juros).*/
             decimal rendaMensal, valorParcela, valorContratado;
             int parcela;
+            string parcelaDigitada, rendaDigitada, valorDigitada;
+            bool numValido, numContratado, numRenda;
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("■ ■ ■ ■ ■ ■ ANALISE DE CREDITO ■ ■ ■ ■ ■ ■\n");
@@ -19,15 +21,23 @@ namespace Financeiro
 
             Console.Write("Digite o valor a ser contratado: R$ ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            valorContratado = Convert.ToDecimal(Console.ReadLine());
+            valorDigitada = Console.ReadLine();
+            numContratado = decimal.TryParse(valorDigitada, out valorContratado);
             Console.ResetColor();
-
+            if (numContratado == false || valorContratado <= 0 || valorContratado <= 1000)
+            {
+                Console.WriteLine("Para seu CONSIGNADO, digite um valor acima de R$ 1000,00");
+            }
+            else
+            {
             Console.Write("Qual quantidade de parcelas deseja fazer: ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            parcela = Convert.ToInt32(Console.ReadLine());
+            parcelaDigitada = Console.ReadLine();
+            numValido = Int32.TryParse(parcelaDigitada, out parcela);
             Console.ResetColor();
             
-            if (parcela <= 0 || parcela > 12)
+            
+            if (numContratado == false || parcela <= 0 || parcela > 12 || numValido == false)
             {
                 Console.WriteLine($"Não é possivel parcela em {parcela} vez(es), escolha entre 1 a 12");
                 
@@ -36,9 +46,15 @@ namespace Financeiro
             {
             Console.Write("Informe sua renda mensal: R$ ");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            rendaMensal = Convert.ToDecimal(Console.ReadLine());
+            rendaDigitada = Console.ReadLine();
+            numRenda = decimal.TryParse(rendaDigitada, out rendaMensal);
             Console.ResetColor();
-
+            if (numRenda == false || rendaMensal <= 0)
+            {
+                Console.WriteLine("Error!!! - Digite um valor númerico!");
+            }
+            else
+            {
             valorParcela = rendaMensal / parcela;
             
             if (valorParcela > (rendaMensal * 30/100))
@@ -51,7 +67,9 @@ namespace Financeiro
             {
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
                 Console.Write($"Valor APROVADO em {parcela} parcelas de {valorParcela:C}\n");    
-                Console.ResetColor();            
+                Console.ResetColor();
+            }            
+            }
             }
             }
             Console.WriteLine("Obrigado por usar o programa.");
